@@ -1,3 +1,6 @@
+// TO DO :Adding a timer and roll counter;
+//       :Style the dice to look like a real dicce; 
+
 import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
