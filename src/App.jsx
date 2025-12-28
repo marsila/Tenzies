@@ -1,19 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import Die from "./Die";
 
 function App() {
-  const [diceArray, setDiceArray] = useState(() => generateDiceNumbers());
-
-  const firstVal = diceArray[0].value;
-
-  const gameWon =
-    diceArray.every((die) => die.isHeld) &&
-    diceArray.every((die) => die.value === firstVal);
-
-  //React confetti
-  //npm install react-confetti
 
   function generateDiceNumbers() {
     const allDiceNums = [];
@@ -30,6 +20,27 @@ function App() {
     //         .fill(0)
     //         .map(() => Math.ceil(Math.random() * 6))
   }
+  const [diceArray, setDiceArray] = useState(() => generateDiceNumbers());
+
+  const firstVal = diceArray[0].value;
+
+  const newGameFocuse = useRef(null);
+
+  const gameWon =
+    diceArray.every((die) => die.isHeld) &&
+    diceArray.every((die) => die.value === firstVal);
+
+  useEffect(()=> {
+    gameWon && newGameFocuse.current.focus()
+    ,[gameWon]
+
+  });
+  
+
+  //React confetti
+  //npm install react-confetti
+
+  
 
   const rollDice = () => {
     setDiceArray((oldDice) =>
@@ -77,7 +88,11 @@ function App() {
           />
         ))}
       </div>
-      <button className="play-button" onClick={rollDice}>
+      <button 
+        className="play-button" 
+        onClick={rollDice}
+        ref={newGameFocuse}
+      >
         {gameWon ? "New Game" : "Roll"}
       </button>
     </main>
